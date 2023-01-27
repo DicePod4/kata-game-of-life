@@ -4,9 +4,9 @@
     {
         private readonly bool[,] _currentState;
         
-        public GameOfLife(int rows, int columns)
+        public GameOfLife(bool[,]initialState)
         {
-            _currentState = new bool[columns, rows];
+            _currentState = initialState;
         }
         
         public bool[,] AdvanceToNextGeneration()

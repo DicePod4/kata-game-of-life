@@ -4,32 +4,31 @@ namespace Tests.Editor
 {
     public class GameOfLifeShould
     {
-        [TestCase(1, 1)]
-        [TestCase(10, 10)]
-        [TestCase(100, 100)]
-        public void CreateAGridOfGivenSize(int rows, int columns)
+        [Test]
+        public void CreateAGridWithAnInitialState()
         {
-            var gameOfLife = GivenAGameOfLife(rows, columns);
+            bool[,] initialState = null;
+            var gameOfLife = GivenAGameOfLife(initialState);
             
             var currentState = WhenAdvanceToNextGeneration(gameOfLife);
             
-            ThenItWillHaveAGridWithTheGivenSize(currentState, rows, columns);
+            ThenCurrentStateIs(currentState, initialState);
         }
-        
-        private GameOfLife GivenAGameOfLife(int rows, int columns)
+
+        private GameOfLife GivenAGameOfLife(bool[,] initialState)
         {
-            return new GameOfLife(rows, columns);
+            return new GameOfLife(initialState);
         }
 
         private bool[,] WhenAdvanceToNextGeneration(GameOfLife gameOfLife)
         {
             return gameOfLife.AdvanceToNextGeneration();
         }
-        
-        private void ThenItWillHaveAGridWithTheGivenSize(bool[,] currentState, int rows, int columns)
+
+        private void ThenCurrentStateIs(bool[, ]currentState, bool[,]expectedState)
         {
-            Assert.AreEqual(columns, currentState.GetLength(0));
-            Assert.AreEqual(rows, currentState.GetLength(1));
+            Assert.AreEqual(expectedState, currentState);
         }
+        
     }
 }
