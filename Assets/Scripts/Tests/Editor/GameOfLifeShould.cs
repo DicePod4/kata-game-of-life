@@ -19,17 +19,46 @@ namespace Tests.Editor
         public void HaveCellsDyingWithFewerThanTwoLiveNeighbours()
         {
             var initialState = new bool[,] 
-                { { false, false, false, false }, 
+            {
+                { false, false, false, false },
                 { false, true, false, false },
                 { false, false, false, false },
-                { false, false, false, false } };
-            
-            var expectedState = new bool[,] 
-            { { false, false, false, false }, 
+                { false, false, false, false }
+            };
+
+            var expectedState = new bool[,]
+            {
                 { false, false, false, false },
                 { false, false, false, false },
-                { false, false, false, false } };
+                { false, false, false, false },
+                { false, false, false, false }
+            };
+
+            var gameOfLife = GivenAGameOfLife(initialState);
             
+            var currentState = WhenAdvanceToNextGeneration(gameOfLife);
+            
+            ThenCurrentStateIs(currentState, expectedState);
+        }
+
+        [Test]
+        public void HaveCellsDyingWithMoreThanThreeLiveNeighbours()
+        {
+            var initialState = new bool[,] 
+            {
+                { false, true, true, false },
+                { true, true, true, false },
+                { false, false, false, false },
+                { false, false, false, false }
+            };
+
+            var expectedState = new bool[,]
+            {
+                { false, false, true, false },
+                { true, false, true, false },
+                { false, false, false, false },
+                { false, false, false, false }
+            };
 
             var gameOfLife = GivenAGameOfLife(initialState);
             

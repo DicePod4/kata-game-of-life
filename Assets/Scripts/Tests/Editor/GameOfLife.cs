@@ -11,76 +11,37 @@
         
         public bool[,] AdvanceToNextGeneration()
         {
-            int neighbourCounter = 0;
-            
-            for (int i = 0; i < _currentState.GetLength(0); i++)
+            for (var i = 0; i < _currentState.GetLength(0); i++)
             {
-                for (int j = 0; j < _currentState.GetLength(1); j++)
+                for (var j = 0; j < _currentState.GetLength(1); j++)
                 {
                     if (!_currentState[i, j]) continue;
 
-                    if (CheckNeighbourCellIsAlive(i - 1, j - 1))
-                    {
-                        neighbourCounter++;
-                    }
-
-                    if (CheckNeighbourCellIsAlive(i - 1, j))
-                    {
-                        neighbourCounter++;
-                    }
-
-                    if (CheckNeighbourCellIsAlive(i - 1, j + 1))
-                    {
-                        neighbourCounter++;
-                    }
-
-                    if (CheckNeighbourCellIsAlive(i, j - 1))
-                    {
-                        neighbourCounter++;
-                    }
-
-                    if (CheckNeighbourCellIsAlive(i, j))
-                    {
-                        neighbourCounter++;
-                    }
-
-                    if (CheckNeighbourCellIsAlive(i, j + 1))
-                    {
-                        neighbourCounter++;
-                    }
-
-                    if (CheckNeighbourCellIsAlive(i + 1, j - 1))
-                    {
-                        neighbourCounter++;
-                    }
-
-                    if (CheckNeighbourCellIsAlive(i + 1, j))
-                    {
-                        neighbourCounter++;
-                    }
-
-                    if (CheckNeighbourCellIsAlive(i + 1, j + 1))
-                    {
-                        neighbourCounter++;
-                    }
-
-                    if (neighbourCounter < 2)
-                    {
+                    if(GetNumberOfNeighboursAlive(i, j) < 2)
                         _currentState[i, j] = false;
-                    }
                 }
             }
+            
             return _currentState;
         }
 
         private int GetNumberOfNeighboursAlive(int i, int j)
         {
-            for (int x = -1; x < 2; x++)
+            var neighbourCounter = 0;
+            
+            for (var x = -1; x < 2; x++)
             {
-                
+                for (var y = -1; y < 2; y++)
+                {
+                    if (x == 0 && y == 0)
+                        continue;
+                    
+                    if (CheckNeighbourCellIsAlive(i + x, j + y))
+                        neighbourCounter++;
+                }
             }
 
-            return 0;
+            return neighbourCounter;
         }
 
         private bool CheckNeighbourCellIsAlive(int i, int j)
