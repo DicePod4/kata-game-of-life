@@ -1,8 +1,11 @@
-﻿namespace Tests.Editor
+﻿using System;
+
+namespace Tests.Editor
 {
     public class GameOfLife
     {
         private readonly bool[,] _currentState;
+        
         
         public GameOfLife(bool[,]initialState)
         {
@@ -11,18 +14,22 @@
         
         public bool[,] AdvanceToNextGeneration()
         {
+            var updatedState = (bool[,])_currentState.Clone();
+            
             for (var i = 0; i < _currentState.GetLength(0); i++)
             {
                 for (var j = 0; j < _currentState.GetLength(1); j++)
                 {
                     if (!_currentState[i, j]) continue;
 
-                    if(GetNumberOfNeighboursAlive(i, j) < 2)
-                        _currentState[i, j] = false;
+                    var aliveNeighboursCount = GetNumberOfNeighboursAlive(i, j);
+                    
+                    if(aliveNeighboursCount < 2 ||aliveNeighboursCount > 3)
+                        updatedState[i, j] = false;
                 }
             }
             
-            return _currentState;
+            return updatedState;
         }
 
         private int GetNumberOfNeighboursAlive(int i, int j)
