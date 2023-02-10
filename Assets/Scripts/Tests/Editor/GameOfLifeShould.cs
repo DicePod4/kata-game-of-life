@@ -7,12 +7,35 @@ namespace Tests.Editor
         [Test]
         public void CreateAGridWithAnInitialState()
         {
-            bool[,] initialState = null;
+            var initialState = new bool[4,4];
             var gameOfLife = GivenAGameOfLife(initialState);
             
             var currentState = WhenAdvanceToNextGeneration(gameOfLife);
             
             ThenCurrentStateIs(currentState, initialState);
+        }
+
+        [Test]
+        public void HaveCellsDyingWithFewerThanTwoLiveNeighbours()
+        {
+            var initialState = new bool[,] 
+                { { false, false, false, false }, 
+                { false, true, false, false },
+                { false, false, false, false },
+                { false, false, false, false } };
+            
+            var expectedState = new bool[,] 
+            { { false, false, false, false }, 
+                { false, false, false, false },
+                { false, false, false, false },
+                { false, false, false, false } };
+            
+
+            var gameOfLife = GivenAGameOfLife(initialState);
+            
+            var currentState = WhenAdvanceToNextGeneration(gameOfLife);
+            
+            ThenCurrentStateIs(currentState, expectedState);
         }
 
         private GameOfLife GivenAGameOfLife(bool[,] initialState)
